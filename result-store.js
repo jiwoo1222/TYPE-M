@@ -16,8 +16,9 @@ function createResult(track, answers) {
     return validateResult({ version: 1, id: globalThis.crypto.randomUUID(), track, answers, createdAt: Date.now() });
 }
 
-function readResults(storage = globalThis.localStorage) {
+function readResults(storage) {
     try {
+        storage ??= globalThis.localStorage;
         const saved = JSON.parse(storage.getItem(RESULT_KEY) || '[]');
         if (!Array.isArray(saved)) throw new Error('invalid results');
         return saved.map(validateResult).sort((a, b) => b.createdAt - a.createdAt);
@@ -27,26 +28,29 @@ function readResults(storage = globalThis.localStorage) {
 }
 
 function writeResults(results, storage) {
-    try { storage.setItem(RESULT_KEY, JSON.stringify(results)); }
+    try {
+        storage ??= globalThis.localStorage;
+        storage.setItem(RESULT_KEY, JSON.stringify(results));
+    }
     catch { throw new Error('결과를 저장하지 못했어요. 저장 공간과 사이트 데이터 권한을 확인해주세요.'); }
 }
 
-function saveResult(result, storage = globalThis.localStorage) {
+function saveResult(result, storage) {
     const checked = validateResult(result);
     const previous = readResults(storage).filter(item => item.id !== checked.id);
     if (previous.length >= RESULT_LIMIT) throw new Error('결과는 최대 50개까지 저장할 수 있어요. 이전 결과를 내보내거나 삭제해주세요.');
     writeResults([checked, ...previous], storage);
 }
 
-function deleteResult(id, storage = globalThis.localStorage) {
+function deleteResult(id, storage) {
     writeResults(readResults(storage).filter(result => result.id !== id), storage);
 }
 
-function exportResults(storage = globalThis.localStorage) {
+function exportResults(storage) {
     return JSON.stringify({ app: 'TYPE-M', version: 1, results: readResults(storage) }, null, 2);
 }
 
-function importResults(text, storage = globalThis.localStorage) {
+function importResults(text, storage) {
     if (typeof text !== 'string' || text.length > 1000000) throw new Error('1MB 이하의 TYPE-M 결과 파일을 선택해주세요.');
     let file;
     try { file = JSON.parse(text); } catch { throw new Error('JSON 파일을 읽지 못했어요.'); }

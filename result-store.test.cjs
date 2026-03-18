@@ -63,3 +63,18 @@ test('invalid imports leave saved data unchanged', () => {
         assert.equal(storage.getItem(RESULT_KEY), before);
     }
 });
+
+test('blocked localStorage property access produces an actionable result error', () => {
+    const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+    const entry = result();
+    const backup = JSON.stringify({app:'TYPE-M',version:1,results:[entry]});
+    Object.defineProperty(globalThis, 'localStorage', {configurable:true,get() {throw new Error('SecurityError');}});
+    try {
+        for (const action of [() => readResults(), () => saveResult(entry), () => deleteResult(entry.id), () => exportResults(), () => importResults(backup)]) {
+            assert.throws(action, /저장된 결과를 읽지 못했어요/);
+        }
+    } finally {
+        if (descriptor) Object.defineProperty(globalThis, 'localStorage', descriptor);
+        else delete globalThis.localStorage;
+    }
+});
