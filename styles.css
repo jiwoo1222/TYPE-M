@@ -473,3 +473,18 @@ nav{
 .skip-link:focus{
     transform:translateY(0);
 }
+
+a:focus-visible, button:focus-visible{
+    outline:3px solid #00458a;
+    outline-offset:5px;
+}
+
+nav a, .login-btn{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+}
+
+button{
+    font:inherit;
+}
