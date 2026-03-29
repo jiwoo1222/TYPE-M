@@ -488,3 +488,14 @@ nav a, .login-btn{
 button{
     font:inherit;
 }
+
+@media (prefers-reduced-motion:reduce){
+    *, *::before, *::after{
+        transition:none !important;
+        animation:none !important;
+    }
+
+    .glass:hover, .start-btn:hover, .chat-btn:hover{
+        transform:none;
+    }
+}
