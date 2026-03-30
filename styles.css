@@ -323,7 +323,10 @@ nav{
     gap:18px;
 }
 
-.feature i{
+.feature-icon{
+    flex-shrink:0;
+    width:32px;
+    text-align:center;
     font-size:28px;
     color:#00458a;
 }
