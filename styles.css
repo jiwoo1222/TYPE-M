@@ -412,8 +412,15 @@ nav{
         padding:22px;
     }
 
+    nav{
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
     .nav-menu{
-        display:none;
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px;
     }
 
     .hero{
@@ -500,5 +507,27 @@ button{
 
     .glass:hover, .start-btn:hover, .chat-btn:hover{
         transform:none;
+    }
+}
+
+.chat-btn{
+    text-decoration:none;
+}
+
+#features{
+    scroll-margin-top:24px;
+}
+
+@media(max-width:700px){
+    .hero{
+        padding-bottom:120px;
+    }
+
+    .chat-btn{
+        width:56px;
+        height:56px;
+        right:16px;
+        bottom:16px;
+        font-size:26px;
     }
 }
