@@ -467,7 +467,7 @@ nav{
     transform:none;
 
     border-color:#dbeafe;
-};
+}
 .skip-link{
     position:fixed;
     top:12px;
@@ -496,7 +496,7 @@ nav a, .login-btn{
 }
 
 button{
-    font:inherit;
+    font-family:inherit;
 }
 
 @media (prefers-reduced-motion:reduce){
