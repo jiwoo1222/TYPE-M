@@ -6,50 +6,18 @@
 }
 
 body{
-    background:
-        radial-gradient(circle at top left,#bfdbfe 0%,transparent 35%),
-        radial-gradient(circle at bottom right,#bbf7d0 0%,transparent 35%),
-        #f8fafc;
-
+    background:#ffffff;
     color:#0f172a;
     overflow-x:hidden;
     min-height:100vh;
 }
 
 .bg-grid{
-    position:fixed;
-    inset:0;
-
-    background-image:
-        linear-gradient(rgba(15,23,42,0.05) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(15,23,42,0.05) 1px,transparent 1px);
-
-    background-size:50px 50px;
-    z-index:-3;
+    display:none;
 }
 
 .blur{
-    position:fixed;
-
-    width:450px;
-    height:450px;
-
-    border-radius:50%;
-    filter:blur(120px);
-
-    z-index:-2;
-}
-
-.blur1{
-    background:#60a5fa;
-    top:-100px;
-    left:-100px;
-}
-
-.blur2{
-    background:#86efac;
-    right:-100px;
-    bottom:-100px;
+    display:none;
 }
 
 nav{
@@ -58,16 +26,16 @@ nav{
     align-items:center;
 
     padding:22px 7%;
+
+    background:rgba(255,255,255,0.95);
+    border-bottom:1px solid #e2e8f0;
 }
 
 .logo{
     font-size:30px;
     font-weight:800;
 
-    background:linear-gradient(to right,#2563eb,#22c55e);
-
-    -webkit-background-clip:text;
-    color:transparent;
+    color:#00458a;
 }
 
 .nav-menu{
@@ -78,32 +46,36 @@ nav{
 
 .nav-menu a{
     text-decoration:none;
-    color:#334155;
+    color:#475569;
 
     font-size:15px;
+    font-weight:500;
+
     transition:0.3s;
 }
 
 .nav-menu a:hover{
-    color:#2563eb;
+    color:#00458a;
 }
 
 .login-btn{
-    border:1px solid #60a5fa;
+    border:1px solid #00458a;
 
     background:white;
-    color:#2563eb;
+    color:#00458a;
 
     padding:10px 20px;
 
     border-radius:999px;
+
+    font-weight:600;
 
     cursor:pointer;
     transition:0.3s;
 }
 
 .login-btn:hover{
-    background:#2563eb;
+    background:#00458a;
     color:white;
 }
 
@@ -111,7 +83,7 @@ nav{
     max-width:1400px;
 
     margin:auto;
-    padding:20px 30px 60px;
+    padding:70px 30px 80px;
 
     text-align:center;
 }
@@ -123,43 +95,45 @@ nav{
 
     border-radius:999px;
 
-    background:rgba(59,130,246,0.08);
-    border:1px solid rgba(59,130,246,0.2);
+    background:#cfe7ff;
+    border:1px solid #b6d8fb;
 
-    color:#2563eb;
+    color:#00458a;
     font-size:14px;
+    font-weight:600;
 
-    margin-bottom:25px;
+    margin-bottom:28px;
 }
 
 .hero h1{
     font-size:82px;
     font-weight:800;
 
-    line-height:1;
+    line-height:1.05;
 
-    background:linear-gradient(to right,#2563eb,#22c55e);
-
-    -webkit-background-clip:text;
-    color:transparent;
+    color:#00458a;
 }
 
 .hero h2{
-    margin-top:18px;
+    margin-top:20px;
 
     font-size:34px;
+    font-weight:700;
+
     color:#0f172a;
 }
 
 .hero p{
-    margin-top:18px;
+    margin-top:22px;
 
     font-size:20px;
-    color:#475569;
+    line-height:1.7;
+
+    color:#64748b;
 }
 
 .card-wrap{
-    margin-top:45px;
+    margin-top:55px;
 
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -168,52 +142,53 @@ nav{
 }
 
 .glass{
-    background:rgba(255,255,255,0.75);
+    background:white;
 
-    border:1px solid rgba(148,163,184,0.2);
+    border:1px solid #dbeafe;
 
-    backdrop-filter:blur(18px);
+    border-radius:30px;
 
     box-shadow:
-        0 10px 40px rgba(59,130,246,0.08);
+        0 10px 30px rgba(0,69,138,0.06);
 
-    transition:0.4s;
+    transition:0.35s;
 }
 
 .glass:hover{
-    transform:translateY(-10px);
+    transform:translateY(-8px);
 
-    border-color:rgba(96,165,250,0.45);
+    border-color:#93c5fd;
+
+    box-shadow:
+        0 20px 40px rgba(0,69,138,0.12);
 }
 
 .main-card{
-    padding:32px;
-
-    border-radius:28px;
+    padding:34px;
 
     text-align:left;
 }
 
 .icon-box{
-    width:72px;
-    height:72px;
+    width:74px;
+    height:74px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    border-radius:24px;
+    border-radius:22px;
 
-    background:linear-gradient(to bottom right,#60a5fa,#22c55e);
+    background:#00458a;
 
-    font-size:28px;
     color:white;
+    font-size:30px;
 
-    margin-bottom:22px;
+    margin-bottom:24px;
 }
 
 .blue{
-    background:linear-gradient(to bottom right,#38bdf8,#22c55e);
+    background:#00458a;
 }
 
 .small-badge{
@@ -223,21 +198,18 @@ nav{
 
     border-radius:999px;
 
-    background:rgba(34,197,94,0.08);
-    border:1px solid rgba(34,197,94,0.18);
+    background:#cfe7ff;
 
-    color:#16a34a;
+    color:#00458a;
+
     font-size:13px;
+    font-weight:600;
 
     margin-bottom:18px;
 }
 
 .blue-badge{
-    background:rgba(59,130,246,0.08);
-
-    border:1px solid rgba(59,130,246,0.18);
-
-    color:#2563eb;
+    background:#dbeeff;
 }
 
 .main-card h3{
@@ -246,13 +218,13 @@ nav{
 
     margin-bottom:18px;
 
-    color:#0f172a;
+    color:#00458a;
 }
 
 .card-text{
     font-size:18px;
 
-    line-height:1.6;
+    line-height:1.7;
 
     color:#475569;
 }
@@ -271,11 +243,13 @@ nav{
 
     border-radius:999px;
 
-    background:rgba(59,130,246,0.08);
-    border:1px solid rgba(96,165,250,0.18);
+    background:#f1f7ff;
+    border:1px solid #dbeafe;
 
-    color:#2563eb;
+    color:#00458a;
+
     font-size:13px;
+    font-weight:500;
 }
 
 .more{
@@ -286,18 +260,13 @@ nav{
 .start-btn{
     width:100%;
 
-    margin-top:28px;
+    margin-top:30px;
     padding:18px;
 
     border:none;
     border-radius:16px;
 
-    background:linear-gradient(
-        135deg,
-        #38bdf8,
-        #3b82f6,
-        #22c55e
-    );
+    background:#00458a;
 
     color:white;
 
@@ -306,51 +275,64 @@ nav{
 
     cursor:pointer;
 
-    transition:0.4s;
+    transition:0.35s;
 }
 
 .start-btn:hover{
     transform:translateY(-4px);
+
+    background:#0b5aa8;
+
+    box-shadow:
+        0 15px 25px rgba(0,69,138,0.2);
 }
 
 .blue-btn{
-    background:linear-gradient(
-        135deg,
-        #0ea5e9,
-        #3b82f6,
-        #22c55e
-    );
+    background:#00458a;
+}
+
+.blue-btn:hover{
+    background:#1d6ac0;
 }
 
 .feature-wrap{
-    margin-top:35px;
+    margin-top:40px;
 
-    padding:25px;
+    padding:28px;
 
-    border-radius:28px;
+    border-radius:30px;
+
+    background:white;
+
+    border:1px solid #dbeafe;
 
     display:grid;
     grid-template-columns:repeat(4,1fr);
 
     gap:20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,69,138,0.05);
 }
 
 .feature{
     display:flex;
     align-items:center;
 
-    gap:20px;
+    gap:18px;
 }
 
 .feature i{
     font-size:28px;
-    color:#22c55e;
+    color:#00458a;
 }
 
 .feature h4{
-    margin-bottom:8px;
+    margin-bottom:6px;
 
     font-size:17px;
+    font-weight:700;
+
     color:#0f172a;
 }
 
@@ -358,6 +340,8 @@ nav{
     margin:0;
 
     font-size:13px;
+    line-height:1.5;
+
     color:#64748b;
 }
 
@@ -367,8 +351,8 @@ nav{
     right:25px;
     bottom:25px;
 
-    width:82px;
-    height:82px;
+    width:78px;
+    height:78px;
 
     display:flex;
     justify-content:center;
@@ -376,30 +360,29 @@ nav{
 
     border-radius:50%;
 
-    background:linear-gradient(
-        to bottom right,
-        #38bdf8,
-        #22c55e
-    );
+    background:#00458a;
 
     color:white;
-    font-size:34px;
+    font-size:32px;
 
     cursor:pointer;
 
-    transition:0.4s;
+    transition:0.35s;
 
-    box-shadow:0 10px 30px rgba(59,130,246,0.25);
+    box-shadow:
+        0 12px 25px rgba(0,69,138,0.25);
 }
 
 .chat-btn:hover{
     transform:scale(1.08);
+
+    background:#0f5cae;
 }
 
 @media(max-width:1200px){
 
     .hero h1{
-        font-size:65px;
+        font-size:64px;
     }
 
     .hero h2{
@@ -413,12 +396,16 @@ nav{
     .card-wrap{
         grid-template-columns:1fr;
     }
+
+    .feature-wrap{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 @media(max-width:700px){
 
     nav{
-        padding:25px;
+        padding:22px;
     }
 
     .nav-menu{
@@ -426,11 +413,11 @@ nav{
     }
 
     .hero{
-        padding:20px 18px 50px;
+        padding:40px 18px 60px;
     }
 
     .hero h1{
-        font-size:52px;
+        font-size:50px;
     }
 
     .hero h2{
@@ -441,8 +428,12 @@ nav{
         font-size:16px;
     }
 
+    .main-card{
+        padding:26px;
+    }
+
     .main-card h3{
-        font-size:34px;
+        font-size:32px;
     }
 
     .card-text{
@@ -454,15 +445,15 @@ nav{
     }
 
     .chat-btn{
-        width:80px;
-        height:80px;
+        width:72px;
+        height:72px;
 
-        font-size:32px;
+        font-size:30px;
     }
 }
 
 .feature-wrap.glass:hover{
     transform:none;
 
-    border-color:rgba(148,163,184,0.2);
-}
+    border-color:#dbeafe;
+};
