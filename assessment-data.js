@@ -22,6 +22,22 @@ const typeMData = {
             ],
         },
     },
+    QUESTIONS: {
+        general: [
+            { id: 'web', field: 'frontend', text: '웹 화면에 버튼이나 애니메이션을 추가하는 일이 흥미롭다.' },
+            { id: 'web-detail', field: 'frontend', text: '여러 화면 크기에서 사용하기 편한 웹 인터페이스를 만들고 싶다.' },
+            { id: 'data-model', field: 'backend', text: '정보를 어떤 구조로 저장하고 주고받을지 생각하는 것이 즐겁다.' },
+            { id: 'rules', field: 'backend', text: '복잡한 서비스 규칙을 정확한 코드로 정리하는 일을 해보고 싶다.' },
+            { id: 'patterns', field: 'ai', text: '많은 데이터에서 의미 있는 패턴을 찾아보는 일이 궁금하다.' },
+            { id: 'experiments', field: 'ai', text: '실험 결과를 수치와 그래프로 비교하며 개선하는 것이 좋다.' },
+            { id: 'device', field: 'mobile', text: '카메라나 위치처럼 휴대전화 기능을 활용하는 앱을 만들고 싶다.' },
+            { id: 'mobile-flow', field: 'mobile', text: '손안에서 매끄럽게 작동하는 앱의 화면 흐름에 관심이 있다.' },
+            { id: 'automation', field: 'devops', text: '반복하는 설치나 배포 작업을 자동화하고 싶다.' },
+            { id: 'reliability', field: 'devops', text: '서비스가 멈췄을 때 원인을 추적하고 복구하는 일이 흥미롭다.' },
+            { id: 'user', field: 'design', text: '사용자가 어디서 어려움을 겪는지 관찰하고 개선하고 싶다.' },
+            { id: 'layout', field: 'design', text: '정보의 순서와 시각적 배치를 바꾸며 전달력을 높이는 것이 좋다.' },
+        ],
+    },
 };
 
 if (typeof module === 'object') module.exports = typeMData;
