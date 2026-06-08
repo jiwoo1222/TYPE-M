@@ -23,6 +23,18 @@ const typeMData = {
         },
     },
     QUESTIONS: {
+        skills: [
+            { id: 'security-logs', field: 'security', text: '수상한 시스템 기록을 분석하고 원인을 찾는 일이 흥미롭다.' },
+            { id: 'security-defense', field: 'security', text: '공격 원리를 이해하고 시스템을 안전하게 설정하는 일을 배우고 싶다.' },
+            { id: 'robot-sensor', field: 'robotics', text: '센서와 모터를 연결해서 물체를 움직여보고 싶다.' },
+            { id: 'robot-control', field: 'robotics', text: '실제 장치의 움직임을 측정하고 제어 코드를 조정하는 것이 좋다.' },
+            { id: 'network-path', field: 'network', text: '기기 사이에서 데이터가 어떤 길로 전달되는지 알고 싶다.' },
+            { id: 'network-repair', field: 'network', text: '연결이 끊긴 원인을 장비 설정과 통신 상태에서 찾는 일이 좋다.' },
+            { id: 'app-requirements', field: 'app', text: '정해진 요구사항을 완성도 높은 모바일 앱으로 구현하고 싶다.' },
+            { id: 'app-practice', field: 'app', text: '시간을 정해놓고 앱 구현 속도와 품질을 함께 높이는 연습이 좋다.' },
+            { id: 'cloud-config', field: 'cloud', text: '서버·네트워크·저장소를 구성해서 서비스를 실행하는 것이 궁금하다.' },
+            { id: 'cloud-reproduce', field: 'cloud', text: '구성 파일로 같은 운영 환경을 반복해서 재현하는 일을 배우고 싶다.' },
+        ],
         general: [
             { id: 'web', field: 'frontend', text: '웹 화면에 버튼이나 애니메이션을 추가하는 일이 흥미롭다.' },
             { id: 'web-detail', field: 'frontend', text: '여러 화면 크기에서 사용하기 편한 웹 인터페이스를 만들고 싶다.' },

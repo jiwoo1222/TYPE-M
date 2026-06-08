@@ -17,3 +17,11 @@ test('general questions cover each field equally without duplicate IDs', () => {
         assert.equal(questions.filter(question => question.field === field.id).length, 2);
     }
 });
+
+test('skills questions reference known fields and cover them equally', () => {
+    const questions = QUESTIONS.skills;
+    const fields = TRACKS.skills.fields.map(field => field.id);
+    assert.ok(questions.every(question => fields.includes(question.field)));
+    assert.equal(new Set(questions.map(question => question.id)).size, questions.length);
+    for (const field of fields) assert.equal(questions.filter(question => question.field === field).length, 2);
+});
