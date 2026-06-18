@@ -17,5 +17,13 @@ function scoreAssessment(trackId, answers) {
     }).sort((a, b) => b.score - a.score);
 }
 
-if (typeof module === 'object') module.exports = { scoreAssessment };
-else Object.assign(globalThis.TypeM, { scoreAssessment });
+function summarizeAssessment(scores) {
+    const highest = scores[0].score;
+    const leaders = scores.filter(field => field.score === highest);
+    const names = leaders.map(field => field.name).join(' · ');
+    if (leaders.length === scores.length) return `모든 분야의 흥미 점수가 같아요. 각 분야의 작은 과제를 체험하면서 비교해보세요.`;
+    return `${names}${leaders.length > 1 ? ' 분야가 공동으로' : ' 분야가'} 가장 높은 흥미 점수를 보였어요. 아래 과제를 시작점으로 활용해보세요.`;
+}
+
+if (typeof module === 'object') module.exports = { scoreAssessment, summarizeAssessment };
+else Object.assign(globalThis.TypeM, { scoreAssessment, summarizeAssessment });

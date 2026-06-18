@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { TRACKS, QUESTIONS } = require('./assessment-data.js');
-const { scoreAssessment } = require('./assessment.js');
+const { scoreAssessment, summarizeAssessment } = require('./assessment.js');
 
 test('each track has unique fields and actionable next steps', () => {
     for (const track of Object.values(TRACKS)) {
@@ -46,4 +46,11 @@ test('scoring rejects incomplete, fractional, and out-of-range answers', () => {
         answers[QUESTIONS.general[0].id] = invalid;
         assert.throws(() => scoreAssessment('general', answers), /응답/);
     }
+});
+
+test('equal responses do not present an arbitrary first field as the winner', () => {
+    const answers = Object.fromEntries(QUESTIONS.general.map(question => [question.id, 3]));
+    assert.match(summarizeAssessment(scoreAssessment('general', answers)), /모든 분야/);
+    const tied = [{ name: 'A', score: 100 }, { name: 'B', score: 100 }, { name: 'C', score: 50 }];
+    assert.match(summarizeAssessment(tied), /A · B.*공동/);
 });
