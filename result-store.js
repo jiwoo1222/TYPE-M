@@ -42,6 +42,25 @@ function deleteResult(id, storage = globalThis.localStorage) {
     writeResults(readResults(storage).filter(result => result.id !== id), storage);
 }
 
-const typeMStore = { RESULT_KEY, RESULT_LIMIT, validateResult, createResult, readResults, saveResult, deleteResult };
+function exportResults(storage = globalThis.localStorage) {
+    return JSON.stringify({ app: 'TYPE-M', version: 1, results: readResults(storage) }, null, 2);
+}
+
+function importResults(text, storage = globalThis.localStorage) {
+    if (typeof text !== 'string' || text.length > 1000000) throw new Error('1MB 이하의 TYPE-M 결과 파일을 선택해주세요.');
+    let file;
+    try { file = JSON.parse(text); } catch { throw new Error('JSON 파일을 읽지 못했어요.'); }
+    if (file?.app !== 'TYPE-M' || file.version !== 1 || !Array.isArray(file.results)) throw new Error('TYPE-M 결과 백업 파일이 아니에요.');
+    const imported = file.results.map(validateResult);
+    const merged = new Map(readResults(storage).map(result => [result.id, result]));
+    for (const result of imported) {
+        if (!merged.has(result.id)) merged.set(result.id, result);
+    }
+    if (merged.size > RESULT_LIMIT) throw new Error('합친 결과가 최대 50개를 넘어요. 이전 결과를 정리한 뒤 다시 시도해주세요.');
+    writeResults([...merged.values()], storage);
+    return imported.length;
+}
+
+const typeMStore = { RESULT_KEY, RESULT_LIMIT, validateResult, createResult, readResults, saveResult, deleteResult, exportResults, importResults };
 if (typeof module === 'object') module.exports = typeMStore;
 else Object.assign(globalThis.TypeM, typeMStore);

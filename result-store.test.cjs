@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { QUESTIONS } = require('./assessment-data.js');
-const { RESULT_KEY, createResult, saveResult, readResults, deleteResult } = require('./result-store.js');
+const { RESULT_KEY, createResult, saveResult, readResults, deleteResult, exportResults, importResults } = require('./result-store.js');
 function memoryStore() {
     const data = new Map();
     return { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value) };
@@ -40,4 +40,26 @@ test('full result storage rejects new entries without dropping old data', () => 
     const before = storage.getItem(RESULT_KEY);
     assert.throws(() => saveResult(result(), storage), /최대 50개/);
     assert.equal(storage.getItem(RESULT_KEY), before);
+});
+
+test('backups merge without duplicating or overwriting saved results', () => {
+    const storage = memoryStore();
+    const entry = result();
+    saveResult(entry, storage);
+    const backup = exportResults(storage);
+    importResults(backup, storage);
+    assert.deepEqual(readResults(storage), [entry]);
+    const empty = memoryStore();
+    importResults(backup, empty);
+    assert.deepEqual(readResults(empty), [entry]);
+});
+
+test('invalid imports leave saved data unchanged', () => {
+    const storage = memoryStore();
+    saveResult(result(), storage);
+    const before = storage.getItem(RESULT_KEY);
+    for (const input of ['broken', '{"app":"OTHER"}', JSON.stringify({app:'TYPE-M',version:1,results:[{id:'broken'}]})]) {
+        assert.throws(() => importResults(input, storage));
+        assert.equal(storage.getItem(RESULT_KEY), before);
+    }
 });
