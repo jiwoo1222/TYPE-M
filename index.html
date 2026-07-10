@@ -40,6 +40,7 @@
     </nav>
 
     <main class="hero" id="main-content" tabindex="-1">
+        <div id="landing">
 
         <div class="top-badge">
             ✨ AI 기반 전공 매칭 시스템
@@ -178,6 +179,12 @@
 
         </section>
 
+        </div>
+        <section id="workspace" class="workspace" aria-label="전공 탐색" hidden>
+            <div id="workspace-alert" class="workspace-alert" role="alert" hidden></div>
+            <div id="workspace-status" role="status" class="workspace-status"></div>
+            <div id="workspace-body"></div>
+        </section>
     </main>
 
     <a class="chat-btn" href="#features" aria-label="TYPE:M 특징 안내로 이동">
@@ -189,6 +196,11 @@
         <p id="notice-message"></p>
         <form method="dialog"><button class="login-btn" autofocus>확인</button></form>
     </dialog>
+    <script src="assessment-data.js" defer></script>
+    <script src="assessment.js" defer></script>
+    <script src="result-store.js" defer></script>
+    <script src="draft-store.js" defer></script>
+    <script src="view.js" defer></script>
     <script src="app.js" defer></script>
 </body>
 </html>

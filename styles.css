@@ -5,6 +5,16 @@
     font-family:'Pretendard',sans-serif;
 }
 
+[hidden]{ display:none !important; }
+.workspace{ max-width:800px; margin:0 auto; text-align:left; scroll-margin-top:24px; }
+.workspace h2{ margin:0 0 20px; font-size:28px; }
+.workspace h3{ margin:24px 0 12px; font-size:22px; }
+.workspace p{ font-size:16px; margin:12px 0; }
+.workspace-alert{ background:#fff1f2; color:#9f1239; padding:16px; border-radius:12px; margin-bottom:16px; }
+.workspace-status{ color:#00458a; min-height:24px; margin-bottom:12px; }
+.workspace-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+.workspace-panel{ border:1px solid #dbeafe; border-radius:20px; padding:28px; background:white; }
+
 body{
     background:#ffffff;
     color:#0f172a;
