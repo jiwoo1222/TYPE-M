@@ -80,8 +80,27 @@
         const scores = TypeM.scoreAssessment(result.track, result.answers);
         const panel = showPanel(`${TRACKS[result.track].title} 결과`);
         panel.append(el('p', TypeM.summarizeAssessment(scores)));
-        for (const field of scores) panel.append(el('p', `${field.name}: ${field.score}점`));
-        panel.append(button('처음으로', home));
+        panel.append(el('p', '점수는 응답한 흥미의 정도를 0~100으로 환산한 값입니다. 적성 진단이나 합격 가능성을 뜻하지 않습니다.'));
+        for (const field of scores) {
+            const card = el('article', '', 'score-card');
+            card.append(el('h3', field.name), el('p', field.description));
+            const meter = el('meter');
+            meter.min = 0;
+            meter.max = 100;
+            meter.value = field.score;
+            meter.setAttribute('aria-label', `${field.name} 흥미 점수 ${field.score}점`);
+            card.append(el('p', `흥미 점수 ${field.score} / 100`), meter, el('p', field.next, 'next-step'));
+            panel.append(card);
+        }
+        const save = button('이 기기에 결과 저장', () => attempt(() => {
+            TypeM.saveResult(result);
+            status.textContent = '이 기기에 결과를 저장했습니다.';
+            save.disabled = true;
+            save.textContent = '저장 완료';
+        }));
+        const actions = el('div', '', 'workspace-actions');
+        actions.append(save, button('다시 검사', () => start(result.track)), button('처음으로', home));
+        panel.append(actions);
         TypeM.focusPanel(panel);
     }
 
