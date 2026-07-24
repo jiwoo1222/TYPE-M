@@ -104,9 +104,38 @@
         TypeM.focusPanel(panel);
     }
 
+    function renderHistory() {
+        session = null;
+        const panel = showPanel('저장된 결과');
+        panel.append(el('p', '이 브라우저에 저장한 검사 결과입니다. 사이트 데이터를 지우면 결과도 삭제됩니다.'));
+        panel.append(button('처음으로', home));
+        attempt(() => {
+            const results = TypeM.readResults();
+            if (!results.length) panel.append(el('p', '저장된 결과가 없어요. 검사를 마친 뒤 결과를 저장해보세요.'));
+            for (const result of results) {
+                const card = el('article', '', 'score-card');
+                card.append(el('h3', TRACKS[result.track].title));
+                const date = el('time', new Date(result.createdAt).toLocaleString('ko-KR'));
+                date.dateTime = new Date(result.createdAt).toISOString();
+                card.append(date, el('p', TypeM.summarizeAssessment(TypeM.scoreAssessment(result.track, result.answers))));
+                const actions = el('div', '', 'workspace-actions');
+                actions.append(button('결과 열기', () => renderResult(result)), button('삭제', () => attempt(() => {
+                    if (!window.confirm('이 검사 결과를 삭제할까요?')) return;
+                    TypeM.deleteResult(result.id);
+                    renderHistory();
+                    status.textContent = '결과를 삭제했습니다.';
+                })));
+                card.append(actions);
+                panel.append(card);
+            }
+        });
+        TypeM.focusPanel(panel);
+    }
+
     document.querySelectorAll('[data-start]').forEach(control => {
         control.addEventListener('click', () => attempt(() => start(control.dataset.start)));
     });
+    document.querySelector('[data-history]').addEventListener('click', renderHistory);
     const notice = document.querySelector('#service-notice');
     document.querySelectorAll('[data-notice]').forEach(control => {
         control.addEventListener('click', () => {
