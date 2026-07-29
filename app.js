@@ -35,6 +35,11 @@
         const question = questions[session.index];
         const panel = showPanel(TRACKS[session.track].title);
         panel.append(el('p', `${session.index + 1} / ${questions.length} 문항`));
+        const progress = el('progress');
+        progress.max = questions.length;
+        progress.value = Object.keys(session.answers).length;
+        progress.setAttribute('aria-label', '응답한 문항 수');
+        panel.append(progress);
         const form = el('form', '', 'workspace-panel');
         const fieldset = el('fieldset', '', 'question-options');
         fieldset.append(el('legend', question.text));
@@ -52,6 +57,7 @@
             radio.checked = session.answers[question.id] === index + 1;
             radio.addEventListener('change', () => {
                 session.answers[question.id] = index + 1;
+                progress.value = Object.keys(session.answers).length;
                 next.disabled = false;
             });
             label.append(radio, el('span', `${index + 1}. ${text}`));
