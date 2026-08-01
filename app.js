@@ -115,6 +115,10 @@
         const panel = showPanel('저장된 결과');
         panel.append(el('p', '이 브라우저에 저장한 검사 결과입니다. 사이트 데이터를 지우면 결과도 삭제됩니다.'));
         panel.append(button('처음으로', home));
+        panel.append(button('결과 백업 내보내기', () => attempt(() => {
+            TypeM.downloadText(TypeM.exportResults(), 'type-m-results.json');
+            status.textContent = '결과 백업 파일을 내려받았습니다.';
+        })));
         attempt(() => {
             const results = TypeM.readResults();
             if (!results.length) panel.append(el('p', '저장된 결과가 없어요. 검사를 마친 뒤 결과를 저장해보세요.'));

@@ -20,4 +20,15 @@ function focusPanel(panel) {
     panel.scrollIntoView({ block: 'start' });
 }
 
-Object.assign(globalThis.TypeM, { makeElement, makeButton, focusPanel });
+function downloadText(text, filename) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json;charset=utf-8' }));
+    const link = makeElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+Object.assign(globalThis.TypeM, { makeElement, makeButton, focusPanel, downloadText });
