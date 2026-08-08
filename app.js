@@ -11,7 +11,7 @@
         alert.textContent = error.message || '처리하지 못했어요. 다시 시도해주세요.';
         alert.hidden = false;
     }
-    function attempt(action) { try { action(); } catch (error) { report(error); } }
+    async function attempt(action) { try { await action(); } catch (error) { report(error); } }
     function showPanel(title) {
         landing.hidden = true;
         workspace.hidden = false;
@@ -119,6 +119,21 @@
             TypeM.downloadText(TypeM.exportResults(), 'type-m-results.json');
             status.textContent = '결과 백업 파일을 내려받았습니다.';
         })));
+        const upload = el('input');
+        upload.type = 'file';
+        upload.accept = '.json,application/json';
+        upload.hidden = true;
+        upload.addEventListener('change', () => attempt(async () => {
+            const file = upload.files[0];
+            if (!file) return;
+            try {
+                if (file.size > 1000000) throw new Error('1MB 이하의 결과 파일을 선택해주세요.');
+                TypeM.importResults(await file.text());
+                renderHistory();
+                status.textContent = '백업을 가져왔습니다. 기존 결과는 유지됩니다.';
+            } finally { upload.value = ''; }
+        }));
+        panel.append(upload, button('결과 백업 가져오기', () => upload.click()));
         attempt(() => {
             const results = TypeM.readResults();
             if (!results.length) panel.append(el('p', '저장된 결과가 없어요. 검사를 마친 뒤 결과를 저장해보세요.'));
