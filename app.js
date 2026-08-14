@@ -30,6 +30,12 @@
         session = { track, index: 0, answers: {} };
         renderQuestion();
     }
+    function persistSession() {
+        try {
+            TypeM.saveDraft(session);
+            status.textContent = '응답을 이 기기에 임시 저장했습니다.';
+        } catch (error) { report(error); }
+    }
     function renderQuestion() {
         const questions = QUESTIONS[session.track];
         const question = questions[session.index];
@@ -59,6 +65,7 @@
                 session.answers[question.id] = index + 1;
                 progress.value = Object.keys(session.answers).length;
                 next.disabled = false;
+                persistSession();
             });
             label.append(radio, el('span', `${index + 1}. ${text}`));
             fieldset.append(label);
@@ -67,7 +74,7 @@
         const previous = button('이전', () => { session.index--; renderQuestion(); });
         previous.disabled = session.index === 0;
         actions.append(previous, next, button('검사 나가기', () => {
-            if (window.confirm('검사를 종료할까요? 입력한 응답은 사라집니다.')) home();
+            if (window.confirm('검사를 나갈까요? 임시 저장된 응답은 나중에 이어 할 수 있습니다.')) home();
         }));
         form.append(fieldset, actions);
         form.addEventListener('submit', event => {
@@ -75,10 +82,15 @@
             attempt(() => {
                 if (session.answers[question.id] === undefined) return;
                 if (session.index < questions.length - 1) { session.index++; renderQuestion(); }
-                else renderResult(TypeM.createResult(session.track, session.answers));
+                else {
+                    const result = TypeM.createResult(session.track, session.answers);
+                    renderResult(result);
+                    TypeM.clearDraft();
+                }
             });
         });
         panel.append(form);
+        persistSession();
         TypeM.focusPanel(panel);
     }
     function renderResult(result) {
