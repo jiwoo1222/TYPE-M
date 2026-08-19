@@ -27,6 +27,8 @@ input:focus-visible{ outline:3px solid #00458a; outline-offset:4px; }
 .score-card meter{ width:100%; height:20px; accent-color:#00458a; }
 .score-card .next-step{ padding:16px; border-radius:12px; background:#f1f7ff; color:#00458a; }
 .workspace progress{ width:100%; height:12px; margin:0 0 24px; accent-color:#00458a; }
+.resume-area:not(:empty){ border:1px solid #93c5fd; border-radius:16px; background:#eff6ff; padding:20px; margin-bottom:28px; }
+.resume-area button{ margin:8px; }
 @media(max-width:700px){
     .workspace h2{ font-size:24px; }
     .workspace-panel, .score-card{ padding:18px; }

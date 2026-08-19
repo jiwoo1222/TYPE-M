@@ -24,11 +24,33 @@
         session = null;
         workspace.hidden = true;
         landing.hidden = false;
+        refreshResume();
         document.querySelector('[data-start]').focus();
     }
     function start(track) {
+        let existing;
+        try { existing = TypeM.readDraft(); } catch { /* A new assessment can replace an unreadable draft. */ }
+        if (existing && !window.confirm('진행 중인 검사가 있어요. 새 검사로 바꿀까요?')) return;
         session = { track, index: 0, answers: {} };
         renderQuestion();
+    }
+    function refreshResume() {
+        const area = document.querySelector('#resume-area');
+        area.replaceChildren();
+        try {
+            const draft = TypeM.readDraft();
+            if (!draft) return;
+            area.append(el('p', `${TRACKS[draft.track].title} · ${Object.keys(draft.answers).length}개 문항에 응답했어요.`));
+            area.append(button('검사 이어 하기', () => {
+                session = TypeM.readDraft();
+                if (session) renderQuestion();
+                else refreshResume();
+            }), button('임시 검사 삭제', () => attempt(() => {
+                if (!window.confirm('임시 저장한 응답을 삭제할까요?')) return;
+                TypeM.clearDraft();
+                refreshResume();
+            })));
+        } catch (error) { area.append(el('p', error.message)); }
     }
     function persistSession() {
         try {
@@ -173,6 +195,7 @@
         control.addEventListener('click', () => attempt(() => start(control.dataset.start)));
     });
     document.querySelector('[data-history]').addEventListener('click', renderHistory);
+    refreshResume();
     const notice = document.querySelector('#service-notice');
     document.querySelectorAll('[data-notice]').forEach(control => {
         control.addEventListener('click', () => {
