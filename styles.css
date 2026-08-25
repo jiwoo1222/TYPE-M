@@ -45,7 +45,7 @@ nav{
     gap:22px;
 }
 
-.nav-menu a{
+.nav-menu a, .nav-link{
     text-decoration:none;
     color:#475569;
 
@@ -53,6 +53,35 @@ nav{
     font-weight:500;
 
     transition:0.3s;
+}
+
+.nav-link{
+    border:0;
+    background:transparent;
+    cursor:pointer;
+    min-height:44px;
+}
+
+#service-notice{
+    margin:auto;
+    width:min(440px, calc(100% - 32px));
+    padding:28px;
+    border:1px solid #dbeafe;
+    border-radius:20px;
+    color:#0f172a;
+}
+
+#service-notice::backdrop{
+    background:rgba(15,23,42,0.45);
+}
+
+#service-notice p{
+    margin:16px 0 24px;
+    line-height:1.7;
+}
+
+#service-notice form{
+    text-align:right;
 }
 
 .nav-menu a:hover{
