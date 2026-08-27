@@ -140,6 +140,30 @@
         }));
         const actions = el('div', '', 'workspace-actions');
         actions.append(save, button('다시 검사', () => start(result.track)), button('처음으로', home));
+        actions.append(button('결과 요약 복사', () => attempt(async () => {
+            const text = [
+                `TYPE:M ${TRACKS[result.track].title}`,
+                TypeM.summarizeAssessment(scores),
+                ...scores.map(field => `${field.name}: ${field.score}점`),
+                '점수는 자기 보고한 흥미 정도이며 적성 진단이 아닙니다.',
+            ].join('\n');
+            try {
+                await navigator.clipboard.writeText(text);
+                status.textContent = '결과 요약을 복사했습니다.';
+            } catch {
+                let copy = panel.querySelector('.copy-summary');
+                if (!copy) {
+                    copy = el('textarea', '', 'copy-summary');
+                    copy.readOnly = true;
+                    copy.setAttribute('aria-label', '직접 복사할 결과 요약');
+                    panel.append(copy);
+                }
+                copy.value = text;
+                copy.focus();
+                copy.select();
+                status.textContent = '자동 복사를 사용할 수 없어요. 선택된 결과를 직접 복사해주세요.';
+            }
+        })));
         panel.append(actions);
         TypeM.focusPanel(panel);
     }
