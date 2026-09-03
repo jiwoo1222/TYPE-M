@@ -6,6 +6,7 @@
     const alert = document.querySelector('#workspace-alert');
     const status = document.querySelector('#workspace-status');
     let session = null;
+    let historyFilter = 'all';
 
     function report(error) {
         alert.textContent = error.message || '처리하지 못했어요. 다시 시도해주세요.';
@@ -195,7 +196,21 @@
         attempt(() => {
             const results = TypeM.readResults();
             if (!results.length) panel.append(el('p', '저장된 결과가 없어요. 검사를 마친 뒤 결과를 저장해보세요.'));
-            for (const result of results) {
+            const filters = el('div', '', 'workspace-actions');
+            for (const [key, title] of [['all', '전체'], ['general', '일반 전공'], ['skills', '기능반']]) {
+                const filter = button(`${title} (${results.filter(result => key === 'all' || result.track === key).length})`, () => {
+                    historyFilter = key;
+                    renderHistory();
+                    body.querySelector(`[data-filter="${key}"]`).focus();
+                });
+                filter.dataset.filter = key;
+                filter.setAttribute('aria-pressed', String(historyFilter === key));
+                filters.append(filter);
+            }
+            panel.append(filters);
+            const visible = results.filter(result => historyFilter === 'all' || result.track === historyFilter);
+            if (results.length && !visible.length) panel.append(el('p', '이 검사 종류로 저장한 결과가 없어요.'));
+            for (const result of visible) {
                 const card = el('article', '', 'score-card');
                 card.append(el('h3', TRACKS[result.track].title));
                 const date = el('time', new Date(result.createdAt).toLocaleString('ko-KR'));
