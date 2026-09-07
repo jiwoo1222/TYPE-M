@@ -141,6 +141,7 @@
         }));
         const actions = el('div', '', 'workspace-actions');
         actions.append(save, button('다시 검사', () => start(result.track)), button('처음으로', home));
+        actions.append(button('결과 인쇄', () => window.print()));
         actions.append(button('결과 요약 복사', () => attempt(async () => {
             const text = [
                 `TYPE:M ${TRACKS[result.track].title}`,
