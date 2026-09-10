@@ -12,6 +12,13 @@ body{
     min-height:100vh;
 }
 
+.script-notice{
+    padding:16px 7%;
+    background:#f1f7ff;
+    color:#00458a;
+    line-height:1.7;
+}
+
 .bg-grid{
     display:none;
 }
