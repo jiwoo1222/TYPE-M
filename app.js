@@ -7,6 +7,7 @@
     const status = document.querySelector('#workspace-status');
     let session = null;
     let historyFilter = 'all';
+    let draftSaved = false;
 
     function report(error) {
         alert.textContent = error.message || '처리하지 못했어요. 다시 시도해주세요.';
@@ -43,9 +44,11 @@
             if (!draft) return;
             area.append(el('p', `${TRACKS[draft.track].title} · ${Object.keys(draft.answers).length}개 문항에 응답했어요.`));
             area.append(button('검사 이어 하기', () => {
-                session = TypeM.readDraft();
-                if (session) renderQuestion();
-                else refreshResume();
+                attempt(() => {
+                    session = TypeM.readDraft();
+                    if (session) renderQuestion();
+                    else refreshResume();
+                });
             }), button('임시 검사 삭제', () => attempt(() => {
                 if (!window.confirm('임시 저장한 응답을 삭제할까요?')) return;
                 TypeM.clearDraft();
@@ -56,8 +59,9 @@
     function persistSession() {
         try {
             TypeM.saveDraft(session);
+            draftSaved = true;
             status.textContent = '응답을 이 기기에 임시 저장했습니다.';
-        } catch (error) { report(error); }
+        } catch (error) { draftSaved = false; report(error); }
     }
     function renderQuestion() {
         const questions = QUESTIONS[session.track];
@@ -97,7 +101,8 @@
         const previous = button('이전', () => { session.index--; renderQuestion(); });
         previous.disabled = session.index === 0;
         actions.append(previous, next, button('검사 나가기', () => {
-            if (window.confirm('검사를 나갈까요? 임시 저장된 응답은 나중에 이어 할 수 있습니다.')) home();
+            const message = draftSaved ? '검사를 나갈까요? 임시 저장된 응답은 나중에 이어 할 수 있습니다.' : '임시 저장에 실패했습니다. 지금 나가면 응답이 사라질 수 있어요. 나갈까요?';
+            if (window.confirm(message)) home();
         }));
         form.append(fieldset, actions);
         form.addEventListener('submit', event => {
@@ -235,6 +240,16 @@
         control.addEventListener('click', () => attempt(() => start(control.dataset.start)));
     });
     document.querySelector('[data-history]').addEventListener('click', renderHistory);
+    document.querySelectorAll('a[href="#features"]').forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            home();
+            const target = document.querySelector('#features');
+            target.tabIndex = -1;
+            target.focus();
+            target.scrollIntoView();
+        });
+    });
     refreshResume();
     const notice = document.querySelector('#service-notice');
     document.querySelectorAll('[data-notice]').forEach(control => {
