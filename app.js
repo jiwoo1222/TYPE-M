@@ -8,8 +8,15 @@
     let session = null;
     let historyFilter = 'all';
     let draftSaved = false;
+    let activeView = 'home';
 
     function report(error) {
+        if (workspace.hidden) {
+            document.querySelector('#notice-message').textContent = error.message;
+            const dialog = document.querySelector('#service-notice');
+            if (!dialog.open) dialog.showModal();
+            return;
+        }
         alert.textContent = error.message || '처리하지 못했어요. 다시 시도해주세요.';
         alert.hidden = false;
     }
@@ -23,6 +30,7 @@
         return body;
     }
     function home() {
+        activeView = 'home';
         session = null;
         workspace.hidden = true;
         landing.hidden = false;
@@ -64,6 +72,7 @@
         } catch (error) { draftSaved = false; report(error); }
     }
     function renderQuestion() {
+        activeView = 'quiz';
         const questions = QUESTIONS[session.track];
         const question = questions[session.index];
         const panel = showPanel(TRACKS[session.track].title);
@@ -122,6 +131,7 @@
         TypeM.focusPanel(panel);
     }
     function renderResult(result) {
+        activeView = 'result';
         session = null;
         const scores = TypeM.scoreAssessment(result.track, result.answers);
         const panel = showPanel(`${TRACKS[result.track].title} 결과`);
@@ -175,7 +185,8 @@
         TypeM.focusPanel(panel);
     }
 
-    function renderHistory() {
+    function renderHistory(focus = true) {
+        activeView = 'history';
         session = null;
         const panel = showPanel('저장된 결과');
         panel.append(el('p', '이 브라우저에 저장한 검사 결과입니다. 사이트 데이터를 지우면 결과도 삭제됩니다.'));
@@ -233,13 +244,18 @@
                 panel.append(card);
             }
         });
-        TypeM.focusPanel(panel);
+        if (focus) TypeM.focusPanel(panel);
     }
 
     document.querySelectorAll('[data-start]').forEach(control => {
         control.addEventListener('click', () => attempt(() => start(control.dataset.start)));
     });
     document.querySelector('[data-history]').addEventListener('click', renderHistory);
+    window.addEventListener('storage', event => {
+        if (event.storageArea !== localStorage) return;
+        if ((event.key === TypeM.RESULT_KEY || event.key === null) && activeView === 'history') renderHistory(false);
+        if ((event.key === TypeM.DRAFT_KEY || event.key === null) && activeView === 'home') refreshResume();
+    });
     document.querySelectorAll('a[href="#features"]').forEach(link => {
         link.addEventListener('click', event => {
             event.preventDefault();
